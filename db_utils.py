@@ -7,9 +7,7 @@ DEFAULT_PATH = os.path.join(os.path.dirname(__file__), 'db.sqlite3')
 
 
 def db_connect(db_path=DEFAULT_PATH):
-    con = sqlite3.connect(db_path)
-def formularioe()
-    
+    con = sqlite3.connect(db_path)  
 
     try:
         create_db(con)
