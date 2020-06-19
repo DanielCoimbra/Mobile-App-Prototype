@@ -38,8 +38,6 @@ def insert_login(login, password):
     cur = conn.cursor()
 
     sql = "INSERT INTO login (user, password) VALUES (?, ?)"
-
-          "UPDATE Tracks SET Name = ?, Composer = ? WHERE TrackId = ?"
     # try:
     cur.execute(sql, (login, password))
     conn.commit()
@@ -47,7 +45,21 @@ def insert_login(login, password):
     # except:
     #     conn.rollback()
     #     raise RuntimeError("An error occurred...")
-    
+
+def check_login(login, password):
+    conn = db_connect()
+    cur = conn.cursor()
+
+    sql = "SELECT user, password FROM login WHERE user='ADMIN', password='ADMIN'"
+
+          
+    try:
+        cur.execute(sql)
+        
+    print(cur.fetchall()[0])
+    conn.commit()
+
+
 def create_db(con):
     cur = con.cursor()
     cur.execute('CREATE TABLE login(user text, password text)')
