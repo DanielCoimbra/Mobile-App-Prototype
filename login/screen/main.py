@@ -95,7 +95,7 @@ def erro_form(string):
         pop = Popup(title='Senha incorreta.',
                     content=Label(text='Please fill in all inputs with valid information.'),
                     size_hint=(None, None), size=(400, 400))
-        pop.open()
+    pop.open()
 
 
 kv = Builder.load_file("my.kv")
