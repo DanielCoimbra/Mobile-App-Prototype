@@ -36,8 +36,8 @@ def check_credentials(email, password):
 
 def create_db(con):
     cur = con.cursor()
-    cur.execute('CREATE TABLE IF NOT EXIST login(name text, email text, password text)')
-    cur.execute('CREATE TABLE IF NOT EXIST report(image blob, description text)')
+    cur.execute('CREATE TABLE IF NOT EXISTS login(name text, email text, password text)')
+    cur.execute('CREATE TABLE IF NOT EXISTS report(image blob, description text)')
     
     con.commit()
 
