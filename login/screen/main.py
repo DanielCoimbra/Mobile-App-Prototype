@@ -31,10 +31,6 @@ class RegisterWindow(Screen):
         self.email.text = ""
         self.password.text = ""
         self.namee.text = ""
-        
-
-class FormWindow(Screen):
-    pass
 
 
 class LoginWindow(Screen):
@@ -43,7 +39,7 @@ class LoginWindow(Screen):
 
     def loginBtn(self):
         if db_u.check_credentials(self.email.text, self.password.text):
-            UserWindow.user_email = self.email.text
+            UserWindow.user_email = self.name.text
             self.reset()
             sm.current = "main"
         else:
@@ -58,20 +54,24 @@ class LoginWindow(Screen):
         self.password.text = ""
 
     def on_enter(self):
-        self.reset()
+        pass
+        
 
 
 class UserWindow(Screen):
     accountName = ObjectProperty(None)
-    created = ObjectProperty(None) 
     user_email = ""
 
     def logOut(self):
         sm.current = "login"
 
     def on_enter(self, *args):
-        self.accountName.text = "Olá " + db_u.get_name(self.user_email) + "!!"
-        self.created.text = "Created On: " + created
+        self.accountName.text = "Olá " + str(self.user_email) + "!!"
+        
+
+
+class FormWindow(Screen):
+    pass
 
 
 class WindowManager(ScreenManager):

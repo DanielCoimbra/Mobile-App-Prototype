@@ -7,7 +7,7 @@ DEFAULT_PATH = os.path.join(os.path.dirname(__file__), 'db.sqlite3')
 
 
 def db_connect(db_path=DEFAULT_PATH):
-    con = sqlite3.connect(db_path)  
+    con = sqlite3.connect(db_path)
 
     try:
         create_db(con)
@@ -17,11 +17,11 @@ def db_connect(db_path=DEFAULT_PATH):
     return con
     
 
-def add_user(email, name, password):
+def add_user(email, password, name):
     conn = db_connect()
     cur = conn.cursor()
 
-    sql = "INSERT INTO login (name, email, password) VALUES (?, ?, ?)"
+    sql = "INSERT INTO login (email, name, password) VALUES (?, ?, ?)"
     # try:
     cur.execute(sql, (email, name, password))
     conn.commit()
@@ -51,6 +51,7 @@ def get_name(string):
 
     sql = "SELECT name FROM login"
     
+    cur.execute(sql, string)
 
     name  = cur.fetchall()[0][0]
     return name
