@@ -1,5 +1,0 @@
-tim@gmail.com;1234;tim;2019-03-02
-peda@hotmail.com;12345;ped;2020-06-18
-aa@hotmail.com;123;aaa;2020-06-18
-peda12@hotmail.com;12345;skljdasjkld;2020-06-18
-pedro@hotmail.com;123;pedro;2020-06-18
