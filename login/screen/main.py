@@ -10,14 +10,11 @@ import db_utils as db_u
 class RegisterWindow(Screen):
     namee = ObjectProperty(None)
     email = ObjectProperty(None)
-    password = ObjectProperty(None)
-    
-
+    password = ObjectProperty(None)    
 
     def submit(self):
         if self.namee.text != "" and self.email.text != "" and self.email.text.count("@") == 1 and self.email.text.count(".") > 0:
             if self.password != "" :
-                # db.add_user(self.email.text, self.password.text, self.namee.text)
                 db_u.add_user(self.email.text, self.password.text, self.namee.text)
 
                 sm.current = "login"
@@ -34,6 +31,10 @@ class RegisterWindow(Screen):
         self.email.text = ""
         self.password.text = ""
         self.namee.text = ""
+        
+
+class FormWindow(Screen):
+    pass
 
 
 class LoginWindow(Screen):
@@ -58,7 +59,6 @@ class LoginWindow(Screen):
 
     def on_enter(self):
         self.reset()
-
 
 
 class UserWindow(Screen):
@@ -95,15 +95,14 @@ def erro_form(string):
         pop = Popup(title='Senha incorreta.',
                     content=Label(text='Please fill in all inputs with valid information.'),
                     size_hint=(None, None), size=(400, 400))
-
-    pop.open()
+        pop.open()
 
 
 kv = Builder.load_file("my.kv")
 
 sm = WindowManager()
 
-screens = [LoginWindow(name="login"), CreateAccountWindow(name="create"),MainWindow(name="main")]
+screens = [LoginWindow(name="login"), RegisterWindow(name="create"),UserWindow(name="main")]
 for screen in screens:
     sm.add_widget(screen)
 
