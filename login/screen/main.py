@@ -78,17 +78,23 @@ class WindowManager(ScreenManager):
     pass
 
 
-def invalidLogin():
-    pop = Popup(title='Invalid Login',
-                  content=Label(text='Invalid username or password.'),
+def erro_login():
+    pop = Popup(title='Erro',
+                  content=Label(text='Senha ou Email incorretos.'),
                   size_hint=(None, None), size=(400, 400))
     pop.open()
 
 
-def invalidForm():
-    pop = Popup(title='Invalid Form',
+def erro_form(string):
+    if string == 'email':
+        pop = Popup(title='Email não cadastrado.',
                   content=Label(text='Please fill in all inputs with valid information.'),
                   size_hint=(None, None), size=(400, 400))
+
+    elif string == 'senha':
+        pop = Popup(title='Senha incorreta.',
+                    content=Label(text='Please fill in all inputs with valid information.'),
+                    size_hint=(None, None), size=(400, 400))
 
     pop.open()
 
