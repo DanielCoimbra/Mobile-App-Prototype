@@ -4,7 +4,7 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.properties import ObjectProperty
 from kivy.uix.popup import Popup
 from kivy.uix.label import Label
-from database import DataBase
+import db_utils as db_u
 
 
 class CreateAccountWindow(Screen):
