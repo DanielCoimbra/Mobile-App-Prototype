@@ -1,4 +1,4 @@
-<CreateAccountWindow>:
+<RegisterWindow>:
     name: "create"
 
     namee: namee
@@ -130,13 +130,13 @@
                 root.createBtn()
 
 
-<MainWindow>:
-    n: n
+<UserWindow>:
+    accountName: accountName
     created:created
 
     FloatLayout:
         Label:
-            id: n
+            id: accountName
             pos_hint:{"x": 0.1, "top":0.9}
             size_hint:0.8, 0.2
             text: "Account Name: "
@@ -155,3 +155,8 @@
             on_release:
                 app.root.current = "login"
                 root.manager.transition.direction = "down"
+
+
+<FormWindow>:
+    Button:
+        text: "test"
