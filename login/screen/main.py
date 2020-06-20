@@ -41,12 +41,12 @@ class LoginWindow(Screen):
     password = ObjectProperty(None)
 
     def loginBtn(self):
-        if db.validate(self.email.text, self.password.text):
-            MainWindow.current = self.email.text
+        if db_u.check_credentials(self.email.text, self.password.text):
+            UserWindow.user_email = self.email.text
             self.reset()
             sm.current = "main"
         else:
-            invalidLogin()
+            erro_login()
 
     def createBtn(self):
         self.reset()
@@ -55,6 +55,10 @@ class LoginWindow(Screen):
     def reset(self):
         self.email.text = ""
         self.password.text = ""
+
+    def on_enter(self):
+        self.reset()
+
 
 
 class MainWindow(Screen):
