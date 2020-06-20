@@ -7,7 +7,7 @@ from kivy.uix.label import Label
 import db_utils as db_u
 
 
-class CreateAccountWindow(Screen):
+class RegisterWindow(Screen):
     namee = ObjectProperty(None)
     email = ObjectProperty(None)
     password = ObjectProperty(None)
@@ -17,15 +17,14 @@ class CreateAccountWindow(Screen):
     def submit(self):
         if self.namee.text != "" and self.email.text != "" and self.email.text.count("@") == 1 and self.email.text.count(".") > 0:
             if self.password != "" :
-                db.add_user(self.email.text, self.password.text, self.namee.text )
-
-                self.reset()
+                # db.add_user(self.email.text, self.password.text, self.namee.text)
+                db_u.add_user(self.email.text, self.password.text, self.namee.text)
 
                 sm.current = "login"
             else:
-                invalidForm()
+                erro_form('senha')
         else:
-            invalidForm()
+            erro_form('email')
 
     def login(self):
         self.reset()
@@ -35,7 +34,6 @@ class CreateAccountWindow(Screen):
         self.email.text = ""
         self.password.text = ""
         self.namee.text = ""
-        
 
 
 class LoginWindow(Screen):
