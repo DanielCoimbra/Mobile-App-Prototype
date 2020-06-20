@@ -61,17 +61,16 @@ class LoginWindow(Screen):
 
 
 
-class MainWindow(Screen):
-    n = ObjectProperty(None)
+class UserWindow(Screen):
+    accountName = ObjectProperty(None)
     created = ObjectProperty(None) 
-    current = ""
+    user_email = ""
 
     def logOut(self):
         sm.current = "login"
 
     def on_enter(self, *args):
-        password, name, created = db.get_user(self.current)
-        self.n.text = "Olá " + name + "!!"
+        self.accountName.text = "Olá " + db_u.get_name(self.user_email) + "!!"
         self.created.text = "Created On: " + created
 
 
