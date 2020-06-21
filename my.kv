@@ -61,7 +61,7 @@
             size_hint: 0.4, 0.1
             font_size: (root.width**2 + root.height**2) / 17**4
             text: "Voltar"
-            
+
             on_release:
                 root.manager.transition.direction = "left"
                 root.login()
@@ -130,7 +130,7 @@
 
 <UserWindow>:
     name: "main"
-    text_input: text_input
+    
 
     BoxLayout:
         orientation: 'vertical'
@@ -151,34 +151,20 @@
 
                 ActionGroup:
                     text: 'Arquivo' #criamos um grupo de botões debaixo do botão "Arquivo"
-                    
-                    ActionButton:
-                        text: 'Abrir'            # é sempre o nome do botão _ ação a ser executada
-                        on_release: root.show_load()
-
-                    ActionButton:
-                        text: 'Salvar'
-                        on_release: root.save_file_on_db(FOTO, self.self.text_input.text)
 
                     ActionButton:
                         text: 'Carregar Imagem'
                         on_release: root.show_selected()
 
-                ActionGroup:
-                    text: 'Ajuda'
-
                     ActionButton:
                         text: 'Logout'
-                        on_release: root.logout()
-
-                    ActionButton:
-                        text: 'Ajuda'                  
+                        on_release: root.logout()              
         Image:
             id: foto_escolhida
             source: ""
-        
-             
-                
+
+
+
         Label:
             text: 'Digite a Descrição'
             size: self.texture_size
@@ -191,26 +177,7 @@
                 id: text_input
                 text: ''       
 
-<LoadDialog>:
-    BoxLayout:
-        size: root.size
-        pos: root.pos
-        orientation: "vertical"
-    
-        FileChooserIconView:
-            id: filechooser
 
-        BoxLayout:
-            size_hint_y: None
-            height: 30
-
-            Button:
-                text: "Cancela"
-                on_release: root.cancel()
-
-            Button:
-                text: "Load"
-                on_release: root.load(filechooser.path, filechooser.selection)
 
 <SaveDialog>:
     text_input: text_input
@@ -252,9 +219,9 @@
         FileChooserIconView:
             id: filechooser
             rootpath: '/home/daniel/Pictures'
-            
+
             on_selection: picture_viewer.selected(filechooser.selection)
-        
+
         Image:
             id: image
             source: ""
@@ -262,12 +229,25 @@
         BoxLayout:
             Button:
                 text: "Continuar"
-                on_release: picture_viewer.save_picture(filechooser.selection)
+                on_release: picture_viewer.continuar()
             Button:    
                 text: "Voltar"
                 on_release: picture_viewer.back()
 
 <FormWindow>:
-
-    Button:
-        text: "test"
+    id: relatorio
+    
+    BoxLayout:
+        orientation: 'vertical'
+        Button:
+            text: 'Voltar'
+            on_release: relatorio.back()
+        BoxLayout:
+            TextInput:
+                id: text_input
+                text:'Escreva sua descrição aqui'
+            Button:
+                text: 'Salvar'
+                on_release: relatorio.save_file_on_db(text_input.text)
+            
+                
