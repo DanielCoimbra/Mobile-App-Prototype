@@ -76,6 +76,7 @@ class UserWindow(Screen):
     loadfile = ObjectProperty(None)
     savefile = ObjectProperty(None)
 
+
     def dismiss_popup(self):
         self._popup.dismiss()
 
@@ -91,11 +92,8 @@ class UserWindow(Screen):
             self.text_input.cursor=0,0
         self.dismiss_popup()        
 
-    def show_save(self):
-        content = SaveDialog(save=self.save, cancel=self.dismiss_popup)
-        self._popup = Popup(title="Salvar arquivo", content=content,
-                            size_hint=(0.9, 0.9))
-        self._popup.open()    
+    def save_file_on_db(self, img, txt):
+        insert_report(img, txt)
 
     def save(self, path, filename):
         with open(os.path.join(path, filename), 'w') as stream:
@@ -119,9 +117,11 @@ class PictureViewer(Screen):
         except:
             pass
 
-    def save_picture(self):
-        self.ids.image.source
-
+    def save_picture(self,filename):
+        root.ids.foto_escolhida.source = filename[0]
+        # print(filename[0])
+        # print('\n')
+        # print(os.path.abspath(__file__))
     def back(self):
         sm.current = 'main'
 
