@@ -153,29 +153,20 @@
                     text: 'Arquivo' #criamos um grupo de botões debaixo do botão "Arquivo"
 
                     ActionButton:
-                        text: 'Carregar Imagem'
+                        text: 'Criar Formulario'
                         on_release: root.show_selected()
 
                     ActionButton:
                         text: 'Logout'
                         on_release: root.logout()              
-        Image:
-            id: foto_escolhida
-            source: ""
-
 
 
         Label:
-            text: 'Digite a Descrição'
+            text: 'Prototype App'
             size: self.texture_size
             bold: True
-            color: [0, 1, 1, 1]
+            color: [0, 1, 0, 1]
             font_size: '30sp'  
-
-        BoxLayout:
-            TextInput:
-                id: text_input
-                text: ''       
 
 
 
@@ -218,7 +209,7 @@
 
         FileChooserIconView:
             id: filechooser
-            rootpath: '/home/daniel/Pictures'
+            path: picture_viewer.this_root()
 
             on_selection: picture_viewer.selected(filechooser.selection)
 

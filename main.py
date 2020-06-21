@@ -90,6 +90,9 @@ class PictureViewer(Screen):
     cancel = ObjectProperty(None)
     picture = None  
 
+    def this_root(self):
+        return os.path.abspath(__file__)
+
     def display_image(self):
         return self.picture
 
