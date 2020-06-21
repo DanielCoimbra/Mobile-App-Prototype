@@ -1,0 +1,539 @@
+
+
+<RegisterWindow>:
+
+    name: "create"
+
+
+
+    namee: namee
+
+    email: email
+
+    password: passw
+
+
+
+    FloatLayout:
+
+        cols:1
+
+
+
+        FloatLayout:
+
+            size: root.width, root.height/2
+
+
+
+            Label:
+
+                text: "Create an Account"
+
+                size_hint: 0.8, 0.2
+
+                pos_hint: {"x":0.1, "top":1}
+
+                font_size: (root.width**2 + root.height**2) / 14**4
+
+
+
+            Label:
+
+                size_hint: 0.5,0.12
+
+                pos_hint: {"x":0, "top":0.8}
+
+                text: "Name: "
+
+                font_size: (root.width**2 + root.height**2) / 14**4
+
+
+
+            TextInput:
+
+                pos_hint: {"x":0.5, "top":0.8}
+
+                size_hint: 0.4, 0.12
+
+                id: namee
+
+                multiline: False
+
+                font_size: (root.width**2 + root.height**2) / 14**4
+
+
+
+            Label:
+
+                size_hint: 0.5,0.12
+
+                pos_hint: {"x":0, "top":0.8-0.13}
+
+                text: "Email: "
+
+                font_size: (root.width**2 + root.height**2) / 14**4
+
+
+
+            TextInput:
+
+                pos_hint: {"x":0.5, "top":0.8-0.13}
+
+                size_hint: 0.4, 0.12
+
+                id: email
+
+                multiline: False
+
+                font_size: (root.width**2 + root.height**2) / 14**4
+
+
+
+            Label:
+
+                size_hint: 0.5,0.12
+
+                pos_hint: {"x":0, "top":0.8-0.13*2}
+
+                text: "Password: "
+
+                font_size: (root.width**2 + root.height**2) / 14**4
+
+
+
+            TextInput:
+
+                pos_hint: {"x":0.5, "top":0.8-0.13*2}
+
+                size_hint: 0.4, 0.12
+
+                id: passw
+
+                multiline: False
+
+                password: True
+
+                font_size: (root.width**2 + root.height**2) / 14**4
+
+    
+
+        Button:
+
+            pos_hint:{"x":0.3,"y":0.25}
+
+            size_hint: 0.4, 0.1
+
+            font_size: (root.width**2 + root.height**2) / 17**4
+
+            text: "Already have an Account? Log In"
+
+            on_release:
+
+                root.manager.transition.direction = "left"
+
+                root.login()
+
+
+
+        Button:
+
+            pos_hint:{"x":0.2,"y":0.05}
+
+            size_hint: 0.6, 0.15
+
+            text: "Submit"
+
+            font_size: (root.width**2 + root.height**2) / 14**4
+
+            on_release:
+
+                root.manager.transition.direction = "left"
+
+                root.submit()
+
+
+
+
+
+<LoginWindow>:
+
+    name: "login"
+
+
+
+    email: email
+
+    password: password
+
+
+
+    FloatLayout:
+
+
+
+        Label:
+
+            text:"Email: "
+
+            font_size: (root.width**2 + root.height**2) / 13**4
+
+            pos_hint: {"x":0.1, "top":0.9}
+
+            size_hint: 0.35, 0.15
+
+
+
+        TextInput:
+
+            id: email
+
+            font_size: (root.width**2 + root.height**2) / 13**4
+
+            multiline: False
+
+            pos_hint: {"x": 0.45 , "top":0.9}
+
+            size_hint: 0.4, 0.15
+
+
+
+        Label:
+
+            text:"Password: "
+
+            font_size: (root.width**2 + root.height**2) / 13**4
+
+            pos_hint: {"x":0.1, "top":0.7}
+
+            size_hint: 0.35, 0.15
+
+
+
+        TextInput:
+
+            id: password
+
+            font_size: (root.width**2 + root.height**2) / 13**4
+
+            multiline: False
+
+            password: True
+
+            pos_hint: {"x": 0.45, "top":0.7}
+
+            size_hint: 0.4, 0.15
+
+
+
+        Button:
+
+            pos_hint:{"x":0.2,"y":0.05}
+
+            size_hint: 0.6, 0.2
+
+            font_size: (root.width**2 + root.height**2) / 13**4
+
+            text: "Login"
+
+            on_release:
+
+                root.manager.transition.direction = "up"
+
+                root.loginBtn()
+
+
+
+        Button:
+
+            pos_hint:{"x":0.3,"y":0.3}
+
+            size_hint: 0.4, 0.1
+
+            font_size: (root.width**2 + root.height**2) / 17**4
+
+            text: "Crie uma nova conta."
+
+            on_release:
+
+                root.manager.transition.direction = "right"
+
+                root.createBtn()
+
+
+
+
+
+<UserWindow>:
+
+    name: "main"
+
+
+
+    text_input: text_input
+
+
+
+    BoxLayout:
+
+        orientation: 'vertical'
+
+
+
+        ActionBar:               #definimos a ActionBAr
+
+            id: actBar
+
+            pos_hint: {'top':1}  #na parte superior da tela
+
+            background_normal: '' #alteramos as cores
+
+            background_down: ''
+
+            background_color: 0, 1, 0, 1
+
+        
+
+        
+
+            ActionView:         
+
+                use_separator: True #A actionview terá uma separação entre os objetos
+
+            
+
+                ActionPrevious:
+
+                    title: 'Form Save' # Texto identificador do menu
+
+                    with_previous: False
+
+                
+
+                ActionOverflow:
+
+            
+
+                    
+
+                ActionGroup:
+
+                    text: 'Arquivo' #criamos um grupo de botões debaixo do botão "Arquivo"
+
+                    ActionButton:
+
+                        text: 'Abrir'            # é sempre o nome do botão _ ação a ser executada
+
+                        on_release: root.show_load()
+
+                    
+
+                    ActionButton:
+
+                        text: 'Salvar'
+
+                        on_release: root.show_save()
+
+                    
+
+                    
+
+                
+
+                    ActionButton:
+
+                        text: 'Carregar Imagem'
+
+                        on_release: root.show_selected()
+
+
+
+                    
+
+                    
+
+                        
+
+                ActionGroup:
+
+                    text: 'Ajuda'
+
+                
+
+                    ActionButton:
+
+                        text: 'Sobre'
+
+                    ActionButton:
+
+                        text: 'Ajuda'                  
+
+
+
+                    
+
+        Label:
+
+            text: 'Anexar Foto' 
+
+            size: self.texture_size
+
+            bold: True
+
+            color: [0, 1, 1, 1]
+
+            font_size: '40sp'      
+
+                
+
+        Label:
+
+            text: 'Digite a Descrição'
+
+            size: self.texture_size
+
+            bold: True
+
+            color: [0, 1, 1, 1]
+
+            font_size: '30sp'  
+
+            
+
+        
+
+        BoxLayout:
+
+            TextInput:
+
+                id: text_input
+
+                text: 'Meu editor'        
+
+                
+
+                
+
+        
+
+<LoadDialog>:
+
+    BoxLayout:
+
+        size: root.size
+
+        pos: root.pos
+
+        orientation: "vertical"
+
+        
+
+        FileChooserIconView:
+
+            id: filechooser
+
+
+
+        BoxLayout:
+
+            size_hint_y: None
+
+            height: 30
+
+            Button:
+
+                text: "Cancela"
+
+                on_release: root.cancel()
+
+
+
+            Button:
+
+                text: "Load"
+
+                on_release: root.load(filechooser.path, filechooser.selection)
+
+
+
+<SaveDialog>:
+
+    text_input: text_input
+
+    BoxLayout:
+
+        size: root.size
+
+        pos: root.pos
+
+        orientation: "vertical"
+
+        FileChooserListView:
+
+            id: filechooser
+
+            on_selection: text_input.text = self.selection and self.selection[0] or ''
+
+
+
+        TextInput:
+
+            id: text_input
+
+            size_hint_y: None
+
+            height: 30
+
+            multiline: False
+
+
+
+        BoxLayout:
+
+            size_hint_y: None
+
+            height: 30
+
+            Button:
+
+                text: "Cancel"
+
+                on_release: root.cancel()
+
+
+
+            Button:
+
+                text: "Salvar"
+
+                on_release: root.save(filechooser.path, text_input.text)
+
+<MyWidget>:
+
+    id: my_widget
+
+    BoxLayout:
+
+        FileChooserIconView:
+
+            id: filechooser
+
+            on_selection: my_widget.selected(filechooser.selection)
+
+        Image:
+
+            id: image
+
+            source: ""
+
+
+
+
+
+
+
+<FormWindow>:
+
+    Button:
+
+        text: "test"
