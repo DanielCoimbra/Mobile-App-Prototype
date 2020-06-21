@@ -75,10 +75,7 @@ class SaveDialog(FloatLayout):
     save = ObjectProperty(None)
     text_input = ObjectProperty(None)
     cancel = ObjectProperty(None)
-class MyWidget(BoxLayout):
-     selected = ObjectProperty(None)
-     cancel = ObjectProperty(None)    
-    
+
 
 class UserWindow(Screen):
     text_input = ObjectProperty(None)
@@ -120,13 +117,12 @@ class UserWindow(Screen):
         except:
             pass
     def show_selected(self):
-        content = MyWidget(selected=self.selected, cancel=self.dismiss_popup)
-        self._popup = Popup(title="Ler Arquivo", content=content,
-                            size_hint=(0.9, 0.9))
-        self._popup.open()
+        sm.current = 'carregar'
 
 
-
+class MyWidget(Screen):
+    selected = ObjectProperty(None)
+    cancel = ObjectProperty(None)    
    
 
         
@@ -164,7 +160,7 @@ kv = Builder.load_file("my.kv")
 
 sm = WindowManager()
 
-screens = [LoginWindow(name="login"), RegisterWindow(name="create"),UserWindow(name="main")]
+screens = [LoginWindow(name="login"), RegisterWindow(name="create"),UserWindow(name="main"), MyWidget(name="carregar")]
 for screen in screens:
     sm.add_widget(screen)
 

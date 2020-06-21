@@ -255,16 +255,13 @@
                 on_release: root.save(filechooser.path, text_input.text)
 <MyWidget>:
     id: my_widget
-    FileChooserIconView
-        id: filechooser
-        on_selection: my_widget.selected(filechooser.selection)
-    Image:
-        id: image
-        source: ""
-
-
-
-
+    BoxLayout:
+        FileChooserIconView:
+            id: filechooser
+            on_selection: my_widget.selected(filechooser.selection)
+        Image:
+            id: image
+            source: ""
 
 
 
