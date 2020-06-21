@@ -60,11 +60,6 @@ class LoginWindow(Screen):
         pass
 
 
-class LoadDialog(FloatLayout):
-    load = ObjectProperty(None)
-    cancel = ObjectProperty(None)
-
-
 class SaveDialog(FloatLayout):
     save = ObjectProperty(None)
     text_input = ObjectProperty(None)
@@ -73,27 +68,11 @@ class SaveDialog(FloatLayout):
 
 class UserWindow(Screen):
     text_input = ObjectProperty(None)
-    loadfile = ObjectProperty(None)
     savefile = ObjectProperty(None)
 
 
     def dismiss_popup(self):
         self._popup.dismiss()
-
-    def show_load(self):
-        content = LoadDialog(load=self.load, cancel=self.dismiss_popup)
-        self._popup = Popup(title="Ler Arquivo", content=content,
-                           size_hint=(0.9, 0.9))
-        self._popup.open()
-
-    def load(self, path, filename):
-        with open(os.path.join(path, filename[0])) as stream:
-            self.text_input.text = stream.read()
-            self.text_input.cursor=0,0
-        self.dismiss_popup()        
-
-    def save_file_on_db(self, img, txt):
-        insert_report(img, txt)
 
     def save(self, path, filename):
         with open(os.path.join(path, filename), 'w') as stream:
@@ -101,24 +80,31 @@ class UserWindow(Screen):
         self.dismiss_popup()
 
     def show_selected(self):
-        sm.current = 'carregar'
+        sm.current = 'picture'
 
     def logout(self):
         sm.current = 'login'
 
 class PictureViewer(Screen):
     selected = ObjectProperty(None)
-    cancel = ObjectProperty(None)    
+    cancel = ObjectProperty(None)
+    picture = None  
+
+    def display_image(self):
+        return self.picture
 
     def selected(self,filename):
         try:
             self.ids.image.source = filename[0]
+            self.picture = filename[0]
             
+
         except:
             pass
 
-    def save_picture(self,filename):
-        root.ids.foto_escolhida.source = filename[0]
+    def continuar(self):
+        sm.current = 'report'
+        #root.ids.foto_escolhida.source = filename[0]
         # print(filename[0])
         # print('\n')
         # print(os.path.abspath(__file__))
@@ -127,16 +113,34 @@ class PictureViewer(Screen):
 
 
 class FormWindow(Screen):
-    pass
+    # descricao = ObjectProperty(None)
+
+    def back(self):
+        sm.current = 'picture'
+
+    def save_file_on_db(self, txt):
+        picture = sm.get_screen('picture').display_image()
+        if txt != '':
+            db_u.insert_report(picture, txt)
+            sm.current = 'main'
+        else:
+            pop = Popup(
+                        title='Erro',
+                        content=Label(text='Insira descrição'),
+                        size_hint=(None, None), size=(400, 400)
+                        )
+            pop.open()
 
 class WindowManager(ScreenManager):
     pass
 
 
 def erro_login():
-    pop = Popup(title='Erro',
+    pop = Popup(
+                title='Erro',
                 content=Label(text='Senha ou Email incorretos.'),
-                size_hint=(None, None), size=(400, 400))
+                size_hint=(None, None), size=(400, 400)
+                )
     pop.open()
 
 def erro_form(string):
@@ -153,12 +157,15 @@ def erro_form(string):
 
 kv = Builder.load_file("my.kv")
 sm = WindowManager()
+foto = None
 
 screens = [
             LoginWindow(name="login"),
             RegisterWindow(name="create"),
             UserWindow(name="main"), 
-            PictureViewer(name="carregar")]
+            PictureViewer(name="picture"),
+            FormWindow(name='report')
+            ]
 
 for screen in screens:
 

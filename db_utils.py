@@ -63,13 +63,12 @@ def export_db():
 def insert_report(img, text):
     con = db_connect()
     cur = con.cursor()
-    txt = 'Descricao da imagem'
 
-    with open('pic.png', 'rb') as f: #pic.png is just the example
+    with open(img, 'rb') as f: #pic.png is just the example
                                      #irl this will have to be checked for filetypes, etc
         data=f.read()
 
-    cur.execute('''INSERT INTO report (image, description) VALUES (?,?)''', (data,txt))
+    cur.execute('''INSERT INTO report (image, description) VALUES (?,?)''', (data,text))
 
     con.commit()
 
