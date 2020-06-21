@@ -7,67 +7,52 @@ DEFAULT_PATH = os.path.join(os.path.dirname(__file__), 'db.sqlite3')
 
 
 def db_connect(db_path=DEFAULT_PATH):
-    con = sqlite3.connect(db_path)  
+    con = sqlite3.connect(db_path)
 
-    try:
-        create_db(con)
-    except (sqlite3.OperationalError):
-        pass
+    create_db(con)
 
     return con
     
 
-def insert_report(img, text):
+def add_user(email, password, name):
     conn = db_connect()
     cur = conn.cursor()
 
-    sql = "INSERT INTO report SET image = ?, description = ?"
-
-    try:
-        cur.execute(sql, (img, text))
-        conn.commit()
-        conn.close()
-    except:
-        conn.rollback()
-
-        raise RuntimeError("An error occurred...")
-
-
-def insert_login(login, password):
-    conn = db_connect()
-    cur = conn.cursor()
-
-    sql = "INSERT INTO login (user, password) VALUES (?, ?)"
+    sql = "INSERT INTO login (email, name, password) VALUES (?, ?, ?)"
     # try:
-    cur.execute(sql, (login, password))
+    cur.execute(sql, (email, name, password))
     conn.commit()
-        
-    # except:
-    #     conn.rollback()
-    #     raise RuntimeError("An error occurred...")
 
-def check_login(login, password):
+
+def check_credentials(email, password):
     conn = db_connect()
     cur = conn.cursor()
 
-    sql = "SELECT user, password FROM login WHERE user='ADMIN', password='ADMIN'"
-
-          
-    try:
-        cur.execute(sql)
-        
-    print(cur.fetchall()[0])
-    conn.commit()
+    sql = "SELECT name FROM login WHERE email=? and password=?"
+    cur.execute(sql, (email, password))
+    
+    return cur.fetchall()
 
 
 def create_db(con):
     cur = con.cursor()
-    cur.execute('CREATE TABLE login(user text, password text)')
-    cur.execute('CREATE TABLE report(image blob, description text)')
+    cur.execute('CREATE TABLE IF NOT EXISTS login(name text, email text, password text)')
+    cur.execute('CREATE TABLE IF NOT EXISTS report(image blob, description text)')
     
     con.commit()
+
+
+def get_name(string):
+    conn = db_connect()
+    cur = conn.cursor()
+
+    sql = "SELECT name FROM login"
     
-    con.close()
+    cur.execute(sql, string)
+
+    name  = cur.fetchall()[0][0]
+    return name
+
 
 def export_db():
     con = db_connect()
@@ -76,16 +61,36 @@ def export_db():
     cur.execute()
 
 
-
-def formulario(text):
-
-    import sqlite3
-    con = sqlite3.connect(os.path.join(os.path.dirname(__file__), 'db.sqlite3'))
+def insert_report(img, text):
+    con = db_connect()
     cur = con.cursor()
-    try:
-        cur.execute('CREATE TABLE formulario(texto text)')
-    except sqlite3.OperationalError:
-        pass
-    cur.execute('INSERTO INTO formulario (texto) VALUES (?)', self.text.text)
+    txt = 'Descricao da imagem'
+
+    with open('pic.jpg', 'rb') as f: #pic.png is just the example
+                                     #irl this will have to be checked for filetypes, etc
+        data=f.read()
+
+    cur.execute('''INSERT INTO report (image, description) VALUES (?,?)''', (data,txt))
+
     con.commit()
-    con.close()
+
+
+def edit_report(report_id=None):
+    con = db_connect()
+    cur = con.cursor()
+    txt = 'Descricao da imagem'
+
+    with open('pic.jpg', 'rb') as f: #pic.png is just the example
+                                     #irl this will have to be checked for filetypes, etc
+        data=f.read()
+
+    cur.execute('''UPDATE report SET image=?, description=? WHERE report_id=?''', (data,txt, report_id))
+
+    con.commit()
+
+def display_image_report(report_id=None):
+    m = cur.execute('select * from report WHERE report_id=?', report_id)
+    for x in m:
+        x[0]
+        
+    return x[0]
