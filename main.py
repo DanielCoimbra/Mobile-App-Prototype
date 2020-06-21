@@ -103,11 +103,12 @@ class UserWindow(Screen):
         self.dismiss_popup()
 
     def show_selected(self):
-
         sm.current = 'carregar'
 
+    def logout(self):
+        sm.current = 'login'
 
-class MyWidget(Screen):
+class PictureViewer(Screen):
     selected = ObjectProperty(None)
     cancel = ObjectProperty(None)    
 
@@ -150,7 +151,7 @@ screens = [
             LoginWindow(name="login"),
             RegisterWindow(name="create"),
             UserWindow(name="main"), 
-            MyWidget(name="carregar")]
+            PictureViewer(name="carregar")]
 
 for screen in screens:
 

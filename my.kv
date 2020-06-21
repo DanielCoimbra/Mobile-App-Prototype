@@ -168,7 +168,8 @@
                     text: 'Ajuda'
 
                     ActionButton:
-                        text: 'Sobre'
+                        text: 'Logout'
+                        on_release: root.logout()
 
                     ActionButton:
                         text: 'Ajuda'                  
@@ -242,13 +243,14 @@
                 text: "Salvar"
                 on_release: root.save(filechooser.path, text_input.text)
 
-<MyWidget>:
+<PictureViewer>:
     id: my_widget
 
     BoxLayout:
 
         FileChooserIconView:
             id: filechooser
+            rootpath: '/home/daniel/Pictures'
             
             on_selection: my_widget.selected(filechooser.selection)
         
