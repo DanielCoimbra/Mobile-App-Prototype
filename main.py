@@ -4,11 +4,11 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.properties import ObjectProperty
 from kivy.uix.popup import Popup
 from kivy.uix.label import Label
-import db_utils as db_u
-import os
 from kivy.uix.widget import Widget
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.floatlayout import FloatLayout
+import db_utils as db_u
+import os
 
 
 class RegisterWindow(Screen):
@@ -115,8 +115,15 @@ class PictureViewer(Screen):
     def selected(self,filename):
         try:
             self.ids.image.source = filename[0]
+            
         except:
             pass
+
+    def save_picture(self):
+        self.ids.image.source
+
+    def back(self):
+        sm.current = 'main'
 
 
 class FormWindow(Screen):
