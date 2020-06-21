@@ -150,8 +150,11 @@
                 ActionOverflow:
 
                 ActionGroup:
-                    text: 'Arquivo' #criamos um grupo de botões debaixo do botão "Arquivo"
+                    text: 'Formularios' #criamos um grupo de botões debaixo do botão "Arquivo"
 
+                    ActionButton:
+                        text: 'Mostrar Formulario'
+                        on_release: root.show_reports()
                     ActionButton:
                         text: 'Criar Formulario'
                         on_release: root.show_selected()
@@ -168,38 +171,17 @@
             color: [0, 1, 0, 1]
             font_size: '30sp'  
 
-
-
-<SaveDialog>:
-    text_input: text_input
+<ReportWindow>:
+    id: report_window
 
     BoxLayout:
-        size: root.size
-        pos: root.pos
-        orientation: "vertical"
-
-        FileChooserListView:
-            id: filechooser
-            on_selection: text_input.text = self.selection and self.selection[0] or ''
-
-        TextInput:
-            id: text_input
-            size_hint_y: None
-            height: 30
-            multiline: False
-
+        orientation:'vertical'
+        Button:
+            text: 'voltar'
+            on_release: report_window.back()
         BoxLayout:
-            size_hint_y: None
-            height: 30
 
-            Button:
-                text: "Cancel"
-                on_release: root.cancel()
-
-            Button:
-                text: "Salvar"
-                on_release: root.save(filechooser.path, text_input.text)
-
+        
 <PictureViewer>:
     id: picture_viewer
 
@@ -208,9 +190,10 @@
         orientation: 'vertical'
 
         FileChooserIconView:
+            background_normal:''
+            background_color : [1,1,1,0]
             id: filechooser
-            path: picture_viewer.this_root()
-
+            
             on_selection: picture_viewer.selected(filechooser.selection)
 
         Image:
@@ -233,12 +216,12 @@
         Button:
             text: 'Voltar'
             on_release: relatorio.back()
-        BoxLayout:
-            TextInput:
-                id: text_input
-                text:'Escreva sua descrição aqui'
-            Button:
-                text: 'Salvar'
-                on_release: relatorio.save_file_on_db(text_input.text)
-            
+    
+        TextInput:
+            id: text_input
+            text:'Escreva sua descrição aqui'
+        Button:
+            text: 'Salvar'
+            on_release: relatorio.save_file_on_db(text_input.text)
+        
                 

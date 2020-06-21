@@ -9,7 +9,10 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.floatlayout import FloatLayout
 import db_utils as db_u
 import os
+# from android.permissions import request_permissions, Permission
 
+# request_permissions([Permission.WRITE_EXTERNAL_STORAGE,
+                    #  Permission.READ_EXTERNAL_STORAGE])
 
 class RegisterWindow(Screen):
     namee = ObjectProperty(None)
@@ -71,6 +74,9 @@ class UserWindow(Screen):
     savefile = ObjectProperty(None)
 
 
+    def show_reports(self):
+        pass
+
     def dismiss_popup(self):
         self._popup.dismiss()
 
@@ -106,7 +112,7 @@ class PictureViewer(Screen):
             pass
 
     def continuar(self):
-        sm.current = 'report'
+        sm.current = 'form'
         #root.ids.foto_escolhida.source = filename[0]
         # print(filename[0])
         # print('\n')
@@ -114,6 +120,10 @@ class PictureViewer(Screen):
     def back(self):
         sm.current = 'main'
 
+class ReportWindow(Screen):
+
+    def back(self):
+        sm.current = 'form'
 
 class FormWindow(Screen):
     # descricao = ObjectProperty(None)
@@ -167,7 +177,8 @@ screens = [
             RegisterWindow(name="create"),
             UserWindow(name="main"), 
             PictureViewer(name="picture"),
-            FormWindow(name='report')
+            FormWindow(name='form'),
+            ReportWindow(name='report')
             ]
 
 for screen in screens:

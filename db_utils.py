@@ -100,3 +100,10 @@ def display_image_report(report_id=None):
         
     with open(str(report_id), 'wb') as fw:
         fw.write(rec_data)
+
+
+def report_list():
+    con = db.connect()
+    cur = con.cursor()
+
+    cur.execute()
