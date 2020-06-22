@@ -61,7 +61,7 @@
             size_hint: 0.4, 0.1
             font_size: (root.width**2 + root.height**2) / 17**4
             text: "Voltar"
-
+            
             on_release:
                 root.manager.transition.direction = "left"
                 root.login()
@@ -130,7 +130,7 @@
 
 <UserWindow>:
     name: "main"
-    
+    text_input: text_input
 
     BoxLayout:
         orientation: 'vertical'
@@ -150,38 +150,69 @@
                 ActionOverflow:
 
                 ActionGroup:
-                    text: 'Formularios' #criamos um grupo de botões debaixo do botão "Arquivo"
+                    text: 'Arquivo' #criamos um grupo de botões debaixo do botão "Arquivo"
 
                     ActionButton:
-                        text: 'Mostrar Formulario'
-                        on_release: root.show_reports()
+                        text: 'Salvar'
+                        on_release: root.save_file_on_db(FOTO, self.self.text_input.text)
+
                     ActionButton:
-                        text: 'Criar Formulario'
+                        text: 'Carregar Imagem'
                         on_release: root.show_selected()
 
                     ActionButton:
                         text: 'Logout'
                         on_release: root.logout()              
-
-
+        Image:
+            id: foto_escolhida
+            source: ""
+        
+             
+                
         Label:
-            text: 'Prototype App'
+            text: 'Digite a Descrição'
             size: self.texture_size
             bold: True
-            color: [0, 1, 0, 1]
+            color: [0, 1, 1, 1]
             font_size: '30sp'  
 
-<ReportWindow>:
-    id: report_window
+        BoxLayout:
+            TextInput:
+                id: text_input
+                text: ''       
+
+
+
+<SaveDialog>:
+    text_input: text_input
 
     BoxLayout:
-        orientation:'vertical'
-        Button:
-            text: 'voltar'
-            on_release: report_window.back()
-        BoxLayout:
+        size: root.size
+        pos: root.pos
+        orientation: "vertical"
 
-        
+        FileChooserListView:
+            id: filechooser
+            on_selection: text_input.text = self.selection and self.selection[0] or ''
+
+        TextInput:
+            id: text_input
+            size_hint_y: None
+            height: 30
+            multiline: False
+
+        BoxLayout:
+            size_hint_y: None
+            height: 30
+
+            Button:
+                text: "Cancel"
+                on_release: root.cancel()
+
+            Button:
+                text: "Salvar"
+                on_release: root.save(filechooser.path, text_input.text)
+
 <PictureViewer>:
     id: picture_viewer
 
@@ -190,12 +221,11 @@
         orientation: 'vertical'
 
         FileChooserIconView:
-            background_normal:''
-            background_color : [1,1,1,0]
             id: filechooser
+            rootpath: '/home/daniel/Pictures'
             
             on_selection: picture_viewer.selected(filechooser.selection)
-
+        
         Image:
             id: image
             source: ""
@@ -203,25 +233,12 @@
         BoxLayout:
             Button:
                 text: "Continuar"
-                on_release: picture_viewer.continuar()
+                on_release: picture_viewer.save_picture(filechooser.selection)
             Button:    
                 text: "Voltar"
                 on_release: picture_viewer.back()
 
 <FormWindow>:
-    id: relatorio
-    
-    BoxLayout:
-        orientation: 'vertical'
-        Button:
-            text: 'Voltar'
-            on_release: relatorio.back()
-        BoxLayout:
-            TextInput:
-                id: text_input
-                text:'Escreva sua descrição aqui'
-            Button:
-                text: 'Salvar'
-                on_release: relatorio.save_file_on_db(text_input.text)
-            
-                
+
+    Button:
+        text: "test"
