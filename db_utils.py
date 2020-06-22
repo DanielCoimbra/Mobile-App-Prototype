@@ -5,18 +5,11 @@ import sqlite3
 # called 'database.sqlite3' in the same directory as this script
 DEFAULT_PATH = os.path.join(os.path.dirname(__file__), 'db.sqlite3')
 
-
-def create_db(con):
+def db_connect(db_path=DEFAULT_PATH):
+    con = sqlite3.connect(db_path)
     cur = con.cursor()
     cur.execute('CREATE TABLE IF NOT EXISTS login(user_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,name TEXT, email TEXT, password TEXT)')
     cur.execute('CREATE TABLE IF NOT EXISTS report(report_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, image blob, description text)')
-    # cur.execute("INSERT INTO login(email, name, password) VALUES ('admin','admin@admin.com','admin')")
-    con.commit()
-
-def db_connect(db_path=DEFAULT_PATH):
-    con = sqlite3.connect(db_path)
-
-    create_db(con)
 
     return con
     
@@ -63,9 +56,8 @@ def export_db():
 def insert_report(img, text):
     con = db_connect()
     cur = con.cursor()
-
-    with open(img, 'rb') as f: #pic.png is just the example
-                                     #irl this will have to be checked for filetypes, etc
+    
+    with open(img, 'rb') as f: 
         data=f.read()
 
     cur.execute('''INSERT INTO report (image, description) VALUES (?,?)''', (data,text))
@@ -73,20 +65,20 @@ def insert_report(img, text):
     con.commit()
 
 
-def edit_report(report_id=None):
+def edit_report(report_id, txt):
     con = db_connect()
     cur = con.cursor()
-    txt = 'Descricao da imagem'
 
-    with open('pic.jpg', 'rb') as f: #pic.png is just the example
-                                     #irl this will have to be checked for filetypes, etc
-        data=f.read()
-
+    try:
+        cur.execute('SELECT image FROM report WHERE report_id=?', (report_id))
+    except:
+        pass
+    rows = cur.fetchall
     cur.execute('''UPDATE report SET image=?, description=? WHERE report_id=?''', (data,txt, report_id))
 
     con.commit()
 
-def display_image_report(report_id=None):
+def display_image_report(report_id):
     con = db_connect()
     cur = con.cursor()
     try:
@@ -100,6 +92,14 @@ def display_image_report(report_id=None):
         
     with open(str(report_id), 'wb') as fw:
         fw.write(rec_data)
+
+def report_table_size():
+    con = db_connect()
+    cur = con.cursor()
+    cur.execute('select report_id from report')
+    rows = cur.fetchall()
+
+    return len(rows)
 
 
 def report_list():

@@ -175,11 +175,7 @@
     id: report_window
 
     BoxLayout:
-        orientation:'vertical'
-        Button:
-            text: 'voltar'
-            on_release: report_window.back()
-        BoxLayout:
+        
 
         
 <PictureViewer>:
@@ -193,6 +189,7 @@
             background_normal:''
             background_color : [1,1,1,0]
             id: filechooser
+            rootpath: '/home/daniel/Pictures'
             
             on_selection: picture_viewer.selected(filechooser.selection)
 
@@ -225,3 +222,18 @@
                 on_release: relatorio.save_file_on_db(text_input.text)
             
                 
+<AllReportsWindow>:
+    id: all_reports
+    
+    BoxLayout:
+        orientation: 'vertical'
+        Button:
+            text: 'Voltar'
+            on_release: relatorio.back()
+        BoxLayout:
+            TextInput:
+                id: texto
+                text:'Escreva sua descrição aqui'
+            Button:
+                text: 'Salvar'
+                on_release: relatorio.save_file_on_db()

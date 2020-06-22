@@ -4,15 +4,16 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.properties import ObjectProperty
 from kivy.uix.popup import Popup
 from kivy.uix.label import Label
+from kivy.uix.button import Button
 from kivy.uix.widget import Widget
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.floatlayout import FloatLayout
+from kivy.uix.dropdown import DropDown
+from kivy.uix.scrollview import ScrollView
 import db_utils as db_u
 import os
-# from android.permissions import request_permissions, Permission
 
-# request_permissions([Permission.WRITE_EXTERNAL_STORAGE,
-                    #  Permission.READ_EXTERNAL_STORAGE])
+picture = []
 
 class RegisterWindow(Screen):
     namee = ObjectProperty(None)
@@ -75,7 +76,8 @@ class UserWindow(Screen):
 
 
     def show_reports(self):
-        pass
+        sm.current = 'all_reports'
+        
 
     def dismiss_popup(self):
         self._popup.dismiss()
@@ -91,23 +93,25 @@ class UserWindow(Screen):
     def logout(self):
         sm.current = 'login'
 
+
 class PictureViewer(Screen):
     selected = ObjectProperty(None)
     cancel = ObjectProperty(None)
-    picture = None  
+    pic = None
+    
+  
 
     def this_root(self):
         return os.path.abspath(__file__)
 
     def display_image(self):
-        return self.picture
+        return self.pic
 
     def selected(self,filename):
         try:
             self.ids.image.source = filename[0]
-            self.picture = filename[0]
-            
-
+            self.pic = filename[0]
+            picture.append(filename[0])
         except:
             pass
 
@@ -120,10 +124,49 @@ class PictureViewer(Screen):
     def back(self):
         sm.current = 'main'
 
-class ReportWindow(Screen):
 
+class ButtonsLayout(BoxLayout):
+    def btn(self):
+        pass
+
+
+class ReportWindow(Screen):
     def back(self):
-        sm.current = 'form'
+        sm.current = 'main'
+
+    def btn(self):
+        sm.current = 'all_reports'
+        #sm.get_screen('all_reports').
+    def on_enter(self):
+        box = BoxLayout()
+        scrl = ScrollView()
+        btnlyt = BoxLayout()
+
+        self.add_widget(box)
+        
+        box.add_widget(scrl)
+
+        scrl.add_widget(btnlyt)
+
+        size = db_u.report_table_size()
+        
+        button = Button(text='Voltar')
+        button.bind(on_release=self.back)
+        btnlyt.add_widget(button)
+        # button.bind(on_release=self.back())
+        
+        for x in range(size):
+            print(x)
+            button = Button(text='Report' + str(x+1))
+            button.bind(on_release=self.btn)
+            self.ids.button_layout.add_widget(button)
+            
+    
+
+
+class AllReportsWindow(Screen):
+    def on_enter(self):
+        pass
 
 class FormWindow(Screen):
     # descricao = ObjectProperty(None)
@@ -132,9 +175,9 @@ class FormWindow(Screen):
         sm.current = 'picture'
 
     def save_file_on_db(self, txt):
-        picture = sm.get_screen('picture').display_image()
+        pic = sm.get_screen('picture').display_image()
         if txt != '':
-            db_u.insert_report(picture, txt)
+            db_u.insert_report(pic, txt)
             sm.current = 'main'
         else:
             pop = Popup(
@@ -143,9 +186,6 @@ class FormWindow(Screen):
                         size_hint=(None, None), size=(400, 400)
                         )
             pop.open()
-
-class WindowManager(ScreenManager):
-    pass
 
 
 def erro_login():
@@ -168,6 +208,11 @@ def erro_form(string):
                     size_hint=(None, None), size=(400, 400))
     pop.open()
 
+
+class WindowManager(ScreenManager):
+    pass
+
+
 kv = Builder.load_file("my.kv")
 sm = WindowManager()
 foto = None
@@ -178,14 +223,15 @@ screens = [
             UserWindow(name="main"), 
             PictureViewer(name="picture"),
             FormWindow(name='form'),
-            ReportWindow(name='report')
+            ReportWindow(name='all_reports'),
+            AllReportsWindow(name='one_report')
             ]
 
 for screen in screens:
 
     sm.add_widget(screen)
 
-sm.current = "login"
+sm.current = "main"
 
 class MyMainApp(App):
 
