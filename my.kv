@@ -68,7 +68,7 @@
         Button:
             pos_hint:{"x":0.2,"y":0.05}
             size_hint: 0.6, 0.15
-            text: "Criar conta"
+            text: "Criar"
             font_size: (root.width**2 + root.height**2) / 14**4
 
             on_release:
@@ -122,7 +122,7 @@
             pos_hint:{"x":0.3,"y":0.3}
             size_hint: 0.4, 0.1
             font_size: (root.width**2 + root.height**2) / 17**4
-            text: "Crie uma nova conta."
+            text: "Criar conta"
 
             on_release:
                 root.manager.transition.direction = "right"
@@ -158,9 +158,11 @@
                     ActionButton:
                         text: 'Criar Formulario'
                         on_release: root.show_selected()
-
+                ActionGroup:
+                    text: 'Conta'
+                    
                     ActionButton:
-                        text: 'Logout'
+                        text: 'Sair'
                         on_release: root.logout()
 
         Label:
@@ -181,7 +183,6 @@
             background_normal:''
             background_color : [1,1,1,0]
             id: filechooser
-            rootpath: '/home/daniel/Pictures'
             
             on_selection: picture_viewer.selected(filechooser.selection)
 

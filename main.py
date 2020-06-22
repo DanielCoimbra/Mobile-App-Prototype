@@ -11,7 +11,15 @@ from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.dropdown import DropDown
 from kivy.uix.scrollview import ScrollView
 import db_utils as db_u
+import sqlite3
 import os
+# from android import Permission, request_permissions
+# # import permissions as perm
+# # from android.permission
+# request_permissions([Permission.READ_EXTERNAL_STORAGE])
+# request_permissions([Permission.WRITE_EXTERNAL_STORAGE])
+# request_permissions([Permission.INTERNET])
+# perm.request_permissions([perm.Permission.INTERNET, perm.Permission.READ_EXTERNAL_STORAGE, perm.Permission.WRITE_EXTERNAL_STORAGE])
 
 picture = []
 lista_de_fotos = []
@@ -87,8 +95,9 @@ class UserWindow(Screen):
 
     def logout(self):
         sm.current = 'login'
-    def mostrar(self):
+    def info(self, num):
         pass
+        
 
 
 
@@ -162,6 +171,7 @@ class ReportWindow(Screen):
     def back(self):
         sm.current = 'all_reports'
         self.ids.imgcpy.source = ""
+        self.ids.labela.text = ""
 
     def mostrar_text(self):
         return str(mostrar_texto(self.numero))
@@ -207,6 +217,14 @@ def erro_lista():
                 )
     pop.open()
 
+def pop_info(num):
+    pop = Popup(
+                title='Info',
+                content=Label(text='Esse relatorio nao existe.'),
+                size_hint=(None, None), size=(400, 400)
+                )
+    pop.open()
+
 def erro_form(string):
     if string == 'email':
         pop = Popup(title='Email não cadastrado.',
@@ -242,7 +260,7 @@ for screen in screens:
 
     sm.add_widget(screen)
 
-sm.current = "login"
+sm.current = "main"
 
 class MyMainApp(App):
 
