@@ -161,22 +161,14 @@
 
                     ActionButton:
                         text: 'Logout'
-                        on_release: root.logout()              
-
+                        on_release: root.logout()
 
         Label:
             text: 'Prototype App'
             size: self.texture_size
             bold: True
             color: [0, 1, 0, 1]
-            font_size: '30sp'  
-
-<ReportWindow>:
-    id: report_window
-
-    BoxLayout:
-        
-
+            font_size: '30sp'
         
 <PictureViewer>:
     id: picture_viewer
@@ -229,11 +221,40 @@
         orientation: 'vertical'
         Button:
             text: 'Voltar'
-            on_release: relatorio.back()
+            on_release: all_reports.back()
+        Button:
+            text: 'Report 1'
+            on_release: all_reports.btn(1)
+        Button:
+            text: 'Report 2'
+            on_release: all_reports.btn(2)
+        Button:
+            text: 'Report 3'
+            on_release: all_reports.btn(3)
+        Button:
+            text: 'Report 4'
+            on_release: all_reports.btn(4)
+        Button:
+            text: 'Report 5'
+            on_release: all_reports.btn(5)
+
+
+<ReportWindow>:
+    id: report_window
+
+    BoxLayout:
+        
+        Image:
+            id:imgcpy
+            source:""
         BoxLayout:
-            TextInput:
-                id: texto
-                text:'Escreva sua descrição aqui'
+            orientation: 'vertical'
+            Button: 
+                text: 'Voltar'
+                on_release: report_window.back()
             Button:
-                text: 'Salvar'
-                on_release: relatorio.save_file_on_db()
+                text: 'mostrar'
+                on_release: report_window.btn()
+            Label:
+                id:labela
+                text: ""

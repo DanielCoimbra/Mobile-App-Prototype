@@ -9,8 +9,8 @@ def db_connect(db_path=DEFAULT_PATH):
     con = sqlite3.connect(db_path)
     cur = con.cursor()
     cur.execute('CREATE TABLE IF NOT EXISTS login(user_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,name TEXT, email TEXT, password TEXT)')
-    cur.execute('CREATE TABLE IF NOT EXISTS report(report_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, image blob, description text)')
-
+    #cur.execute('CREATE TABLE IF NOT EXISTS report(report_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, image blob, description text)')
+    cur.execute('CREATE TABLE IF NOT EXISTS report(report_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, image text, description text)')
     return con
     
 
@@ -57,12 +57,34 @@ def insert_report(img, text):
     con = db_connect()
     cur = con.cursor()
     
-    with open(img, 'rb') as f: 
-        data=f.read()
+    # with open(img, 'rb') as f: 
+    #     data=f.read()
 
-    cur.execute('''INSERT INTO report (image, description) VALUES (?,?)''', (data,text))
-
+    # cur.execute('''INSERT INTO report (image, description) VALUES (?,?)''', (data,text))
+    cur.execute('''INSERT INTO report (image, description) VALUES (?,?)''', (img,text))
     con.commit()
+
+def mostrar_foto(num):
+    con = db_connect()
+    cur = con.cursor()
+    
+    # with open(img, 'rb') as f: 
+    #     data=f.read()
+
+    cur.execute('''select image from report where report_id=?''', str(num))
+
+    return cur.fetchall()
+
+def mostrar_texto(num):
+    con = db_connect()
+    cur = con.cursor()
+    
+    # with open(img, 'rb') as f: 
+    #     data=f.read()
+
+    cur.execute('''select description from report''')
+
+    return cur.fetchall()[num - 1][0]
 
 
 def edit_report(report_id, txt):
