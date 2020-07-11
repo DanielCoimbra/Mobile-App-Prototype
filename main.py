@@ -10,9 +10,13 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.dropdown import DropDown
 from kivy.uix.scrollview import ScrollView
+from kivy.utils import platform
 import db_utils as db_u
 import sqlite3
 import os
+
+
+
 # from android import Permission, request_permissions
 # # import permissions as perm
 # # from android.permission
@@ -64,6 +68,7 @@ class LoginWindow(Screen):
     def createBtn(self):
         self.reset()
         sm.current = "create"
+        
 
     def reset(self):
         self.email.text = ""
@@ -92,6 +97,17 @@ class UserWindow(Screen):
 
     def show_selected(self):
         sm.current = 'picture'
+        if platform == 'android':
+            from android.permissions import Permission, request_permissions
+            def callback(permission, results):
+                if all([res for res in results]):
+                    print("Got all permissions")
+                    
+                else:
+                    print("Did not get all permissions")
+
+            request_permissions([Permission.READ_EXTERNAL_STORAGE,
+                                    Permission.WRITE_EXTERNAL_STORAGE,], callback)
 
     def logout(self):
         sm.current = 'login'
@@ -260,7 +276,7 @@ for screen in screens:
 
     sm.add_widget(screen)
 
-sm.current = "main"
+sm.current = "login"
 
 class MyMainApp(App):
 
